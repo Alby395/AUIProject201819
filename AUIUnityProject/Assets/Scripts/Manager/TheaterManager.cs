@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -13,7 +13,11 @@ public class TheaterManager : MonoBehaviour
 	[SerializeField] private float _lightTime;
 	[SerializeField] private float[] _lightRadiusLevels;
 	[SerializeField] private float[] _lightIntensityLevels;
-	
+
+	[SerializeField] private List<Row> _rows;
+
+	private int _seatsPerRow;
+	private int _currentRow = 1;
 	private int _currentLevel;
 	private Coroutine _coroutine;
 
@@ -33,6 +37,7 @@ public class TheaterManager : MonoBehaviour
 	void Start ()
 	{
 		_currentLevel = 0;
+		_seatsPerRow = _rows[0].SeatPerRow();
 		_spotlightRight.spotAngle = _spotlightLeft.spotAngle = _lightRadiusLevels[0];
 	}
 	
@@ -69,7 +74,12 @@ public class TheaterManager : MonoBehaviour
 	{
 		float currentSpotAngle = _spotlightLeft.spotAngle;
 		float currentIntensity = _spotlightLeft.intensity;
-		
+
+		if (_currentRow < _rows.Count && ObjectPoolManager.Instance.RemainingElement() > 0)
+		{
+			yield return _rows[_currentLevel + 2].AssignSeats(Random.Range(((10 - _currentLevel) / 10) * _seatsPerRow, _seatsPerRow));
+		}
+
 		for (float t = 0; t < 1.0f; t += Time.deltaTime / _lightTime)
 		{ 
 			_spotlightRight.spotAngle = _spotlightLeft.spotAngle = Mathf.Lerp(currentSpotAngle, _lightRadiusLevels[_currentLevel], t);

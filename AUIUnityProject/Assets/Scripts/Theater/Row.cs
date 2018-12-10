@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,14 +19,28 @@ public class Row : MonoBehaviour
         return false;
     }
 
-    public void AssignSeats(List<GameObject> people)
+    /// <summary>
+    /// Gives the number of seats in the row.
+    /// </summary>
+    /// <returns>The number of seats in the row.</returns>
+    public int SeatPerRow()
     {
+        return _seats.Count;
+    }
+    
+    public IEnumerator AssignSeats(int n)
+    {
+        List<GameObject> people = ObjectPoolManager.Instance.GivePeople(n);
+        
         if (people.Count < _seats.Count)
-            AssignRandom(people);
+            return AssignRandom(people);
         else
-            AssignAll(people);
+            return AssignAll(people);
     }
 
+    /// <summary>
+    /// Frees all the seats in the row
+    /// </summary>
     public void FreeRow()
     {
         foreach (Seat seat in _seats)
@@ -33,15 +48,18 @@ public class Row : MonoBehaviour
             seat.FreeSeat();      
         }
     }
-    private void AssignAll(List<GameObject> people)
+    
+    private IEnumerator AssignAll(List<GameObject> people)
     {
         for (int i = 0; i < _seats.Count; i++)
         {
             _seats[i].AssignSeat(people[i]);
+            
+            yield return null;
         }
     }
 
-    private void AssignRandom(List<GameObject> people)
+    private IEnumerator AssignRandom(List<GameObject> people)
     {
         int peopleCount = people.Count;
         
@@ -91,14 +109,26 @@ public class Row : MonoBehaviour
             seatsCount--;
             
             _seats[i].AssignSeat(person);
+
+            yield return null;
         }
     }
 
+    /// <summary>
+    /// Increments a given integer by 1.
+    /// </summary>
+    /// <param name="n">Number to increase.</param>
+    /// <returns>The number increased.</returns>
     private int Increment(int n)
     {
         return (n + 1);
     }
     
+    /// <summary>
+    /// Decrements a given integer by 1.
+    /// </summary>
+    /// <param name="n">Number to decrease.</param>
+    /// <returns>Te number decreased.</returns>
     private int Decrement(int n)
     {
         return (n - 1);
