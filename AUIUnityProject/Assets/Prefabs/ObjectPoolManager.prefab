@@ -56,3 +56,11 @@ MonoBehaviour:
     type: 2}
   _indifferentMalePrefab: {fileID: 1344274191042822, guid: 829c19fda9e0c954282cba2e604092ce,
     type: 2}
+  _kindFemalePrefab: {fileID: 1383485062670278, guid: 98eb19dffdd15144c958524f412b4b96,
+    type: 2}
+  _kindMalePrefab: {fileID: 1344257749938462, guid: 88d02ed75c7ff7a4d941b1245b6b0990,
+    type: 2}
+  _seriousMalePrefab: {fileID: 1098709664536176, guid: 0398f8153a2624c41b3af199a69d55f7,
+    type: 2}
+  _seriousFemalePrefab: {fileID: 1478288316143328, guid: c24d33fb65934874aa18f9a1b1e35ffa,
+    type: 2}

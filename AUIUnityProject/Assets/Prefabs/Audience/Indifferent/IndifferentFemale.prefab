@@ -1100,7 +1100,7 @@ Animator:
   m_GameObject: {fileID: 1575572997168470}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 34eaa6c970649e342b0bfecf3e3314a6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9705a7d6d6de6b145844b97530ad1df6, type: 2}
+  m_Controller: {fileID: 22100000, guid: 010f0e9a1409d2b4ba1363c7a0528966, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1355,14 +1355,14 @@ LODGroup:
   serializedVersion: 2
   m_LocalReferencePoint: {x: -0.5541878, y: 77.58922, z: 3.655651}
   m_Size: 178.95337
-  m_FadeMode: 1
+  m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LODs:
-  - screenRelativeHeight: 0.49449012
+  - screenRelativeHeight: 0.5567026
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 137758790886151898}
-  - screenRelativeHeight: 0.125
+  - screenRelativeHeight: 0.20614167
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 137115992117717670}

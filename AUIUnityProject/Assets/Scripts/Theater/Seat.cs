@@ -5,9 +5,25 @@ public class Seat : MonoBehaviour
     private GameObject _person;
     
     private bool _occupied;
+    private Animator _animator;
     
     private readonly Vector3 _offset = new Vector3(1.2f, 0.3f, 0f);
-    
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z) && _occupied && _animator != null && Random.value < 0.3f)
+        {
+            _animator.SetTrigger("Reaction1");
+        }
+
+        if (Input.GetKeyDown(KeyCode.X) && _occupied && _animator != null && Random.value < 0.3f)
+        {
+            _animator.SetTrigger("Reaction2");
+        }
+
+    }
+
     /// <summary>
     /// Checks whether the seat is occupied
     /// </summary>
@@ -25,7 +41,8 @@ public class Seat : MonoBehaviour
     {
         _person = person;
         _person.SetActive(true);
-        Debug.Log(transform.localPosition);
+
+        _animator = _person.GetComponent<Animator>();
         _person.transform.position = transform.position + _offset;
         _occupied = true;
     }

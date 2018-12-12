@@ -14,6 +14,10 @@ public class ObjectPoolManager : MonoBehaviour
 	[Header("Prefabs")]
 	[SerializeField] private GameObject _indifferentFemalePrefab;
 	[SerializeField] private GameObject _indifferentMalePrefab;
+	[SerializeField] private GameObject _kindFemalePrefab;
+	[SerializeField] private GameObject _kindMalePrefab;
+	[SerializeField] private GameObject _seriousMalePrefab;
+	[SerializeField] private GameObject _seriousFemalePrefab;
 	
     private List<GameObject> _people;
 	private int _seatedPeople;
@@ -109,13 +113,31 @@ public class ObjectPoolManager : MonoBehaviour
 
 	private GameObject PickNextPrefab()
 	{
-		if (Random.value <= 0.5f)
+		float type = Random.value;
+		float gender = Random.value;
+
+		Debug.Log("Type: " + type);
+		Debug.Log("Gender: " + gender);
+		
+		if (type <= 0.33f)
 		{
-			return _indifferentFemalePrefab;
-		}
-		else
-		{
+			if(gender <= 0.5f)
+				return _indifferentFemalePrefab;
+			
 			return _indifferentMalePrefab;
 		}
+		
+		if (type >= 0.66f)
+		{
+			if(gender <= 0.5f)
+				return _kindFemalePrefab;
+			
+			//return _kindMalePrefab;
+		}
+		
+		if(gender <= 0.5f)
+				return _seriousFemalePrefab;
+			
+			return _seriousMalePrefab;
 	}
 }
