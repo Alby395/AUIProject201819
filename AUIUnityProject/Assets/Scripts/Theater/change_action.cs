@@ -2,25 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class serious : MonoBehaviour {
+public class change_action : MonoBehaviour {
 
     Animator animator;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         animator = GetComponent<Animator>();
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        float r;
+    // Update is called once per frame
+    void Update () {
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            r = Random.value;
-            animator.SetFloat("rand", r);
+            animator.SetTrigger("change_action");
         }
-
     }
 }
