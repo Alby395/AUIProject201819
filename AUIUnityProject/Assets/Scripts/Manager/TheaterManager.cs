@@ -13,14 +13,17 @@ public class TheaterManager : MonoBehaviour
 	[SerializeField] private float _lightTime;
 	[SerializeField] private float[] _lightRadiusLevels;
 	[SerializeField] private float[] _lightIntensityLevels;
-
+	
 	[SerializeField] private List<Row> _rows;
 
+	[SerializeField] private int _initializedRows = 2;
+	
 	private int _seatsPerRow;
-	private int _currentRow = 1;
+	private int _currentRow;
 	private int _currentLevel;
 	private Coroutine _coroutine;
-
+	private bool _add;
+	
 	void Awake()
 	{
 		if (Instance == null)
@@ -39,6 +42,8 @@ public class TheaterManager : MonoBehaviour
 		_currentLevel = 0;
 		_seatsPerRow = _rows[0].SeatPerRow();
 		_spotlightRight.spotAngle = _spotlightLeft.spotAngle = _lightRadiusLevels[0];
+
+		StartCoroutine(InitFirstRows());
 	}
 	
 	// Update is called once per frame
@@ -48,6 +53,7 @@ public class TheaterManager : MonoBehaviour
 		{
 			if (_currentLevel < (_lightRadiusLevels.Length) - 1)
 			{
+				_add = true;
 				_currentLevel++;
 				if(_coroutine != null)
 					StopCoroutine(_coroutine);
@@ -60,6 +66,7 @@ public class TheaterManager : MonoBehaviour
 		{
 			if (_currentLevel > 0)
 			{
+				_add = false;
 				_currentLevel--;
 				
 				if(_coroutine != null)
@@ -75,9 +82,25 @@ public class TheaterManager : MonoBehaviour
 		float currentSpotAngle = _spotlightLeft.spotAngle;
 		float currentIntensity = _spotlightLeft.intensity;
 
-		if (_currentRow < _rows.Count && ObjectPoolManager.Instance.RemainingElement() > 0)
+		if (_add && _currentRow < _rows.Count - 1 && ObjectPoolManager.Instance.RemainingElement() > 0)
 		{
-			yield return _rows[_currentLevel + 2].AssignSeats(Random.Range(((10 - _currentLevel) / 10) * _seatsPerRow, _seatsPerRow));
+			Debug.Log("Assigning Row: " + _currentRow);
+			
+			float rand = ((float) (15 - _currentLevel) / 15) * _seatsPerRow;
+			int n = Random.Range( (int) rand, _seatsPerRow) ;
+			
+			Debug.Log("People to assign: " + n);
+			List<GameObject> people = ObjectPoolManager.Instance.GivePeople(n);
+
+			if (people.Count < _seatsPerRow)
+				yield return StartCoroutine(_rows[_currentRow++].AssignRandom(people));
+			else
+				yield return StartCoroutine(_rows[_currentRow++].AssignAll(people));
+		}
+		else if(!_add && _currentRow > _initializedRows)
+		{
+			Debug.Log("Clearing row: " + _currentRow);
+			StartCoroutine(_rows[--_currentRow].FreeRow());
 		}
 
 		for (float t = 0; t < 1.0f; t += Time.deltaTime / _lightTime)
@@ -86,6 +109,17 @@ public class TheaterManager : MonoBehaviour
 			_spotlightLeft.intensity = _spotlightRight.intensity = Mathf.Lerp(currentIntensity, _lightIntensityLevels[_currentLevel], t);
 			
 			yield return null;
+		}
+	}
+
+	private IEnumerator InitFirstRows()
+	{
+		while (!ObjectPoolManager.Instance.Ready)
+			yield return null;
+
+		for (_currentRow = 0; _currentRow < _initializedRows; _currentRow++)
+		{
+			yield return StartCoroutine(_rows[_currentRow].AssignAll(ObjectPoolManager.Instance.GivePeople(_seatsPerRow)));
 		}
 	}
 }

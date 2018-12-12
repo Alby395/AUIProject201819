@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Seat : MonoBehaviour
 {
-    [SerializeField] private GameObject _person;
+    private GameObject _person;
     
     private bool _occupied;
     
-    private readonly Vector3 _offset = new Vector3(0f, 5f, 0f);
+    private readonly Vector3 _offset = new Vector3(1.2f, 0.3f, 0f);
     
     /// <summary>
     /// Checks whether the seat is occupied
@@ -24,6 +24,8 @@ public class Seat : MonoBehaviour
     public void AssignSeat(GameObject person)
     {
         _person = person;
+        _person.SetActive(true);
+        Debug.Log(transform.localPosition);
         _person.transform.position = transform.position + _offset;
         _occupied = true;
     }

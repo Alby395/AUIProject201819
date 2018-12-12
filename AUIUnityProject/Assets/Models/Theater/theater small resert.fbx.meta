@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 54638c8681ae759408d53adca0307c46
+guid: 82f481dfc67623f47b66c9c5ea9e1703
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -253,18 +253,18 @@ ModelImporter:
     400244: Mesh9
     400246: //RootNode
     400248: Untitled1
-    2100000: _SeaGreen_
-    2100002: _White_
-    2100004: exit_sign_2
-    2100006: BackColor
-    2100008: Metal_Corrogated_Shiny
-    2100010: maple
-    2100012: _5
-    2100014: Color_A06
-    2100016: Color_A01
-    2100018: Color_B12
-    2100020: Wood_Cherry_Original
-    2100022: Carpet_Frieze_Blue
+    2100000: Color_A01
+    2100002: Color_A06
+    2100004: _SeaGreen_
+    2100006: _White_
+    2100008: exit_sign_2
+    2100010: BackColor
+    2100012: Metal_Corrogated_Shiny
+    2100014: maple
+    2100016: _5
+    2100018: Carpet_Frieze_Blue
+    2100020: Color_B12
+    2100022: Wood_Cherry_Original
     2100024: _CoolGray5_
     2100026: FrontColor
     2300000: Mesh1

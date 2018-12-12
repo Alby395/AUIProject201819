@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
 public class ObjectPoolManager : MonoBehaviour
 {
 	public static ObjectPoolManager Instance { get; private set; }
-    
-	[Range(8, 30)]
+    public bool Ready { get; private set; }
+	[Range(8, 40)]
 	[SerializeField] private int _numberOfPeople;
 	
 	[Header("Prefabs")]
 	[SerializeField] private GameObject _indifferentFemalePrefab;
+	[SerializeField] private GameObject _indifferentMalePrefab;
 	
     private List<GameObject> _people;
+	private int _seatedPeople;
 
 	private void Awake()
 	{
@@ -30,6 +33,8 @@ public class ObjectPoolManager : MonoBehaviour
 	private void Start()
 	{
 		_people = new List<GameObject>();
+
+		StartCoroutine(InitPoolCoroutine());
 	}
 
 	/// <summary>
@@ -40,7 +45,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
 	    person.transform.position = transform.position;
 	    person.SetActive(false);
-    	_people.Add(person);
+	    _seatedPeople--;
     }
 
 	/// <summary>
@@ -60,17 +65,17 @@ public class ObjectPoolManager : MonoBehaviour
 	{
 		List<GameObject> people;
 
-		if (n <= _people.Count)
+		if (n <= _numberOfPeople - _seatedPeople)
 		{
-			people = _people.GetRange(0, n);
+			people = _people.GetRange(_seatedPeople, n);
 		}
 		else
 		{
-			people = _people.GetRange(0, _people.Count);
+			people = _people.GetRange(_seatedPeople, _numberOfPeople - _seatedPeople);
 			n = _people.Count;
 		}
-		
-		_people.RemoveRange(0, n);
+
+		_seatedPeople += n;
 		
 		return people;
 	}
@@ -81,20 +86,36 @@ public class ObjectPoolManager : MonoBehaviour
 	/// <returns>The number of people remaining.</returns>
 	public int RemainingElement()
 	{
-		return _people.Count;
+		return _numberOfPeople - _seatedPeople;
 	}
 	
 	private IEnumerator InitPoolCoroutine()
 	{
 		for (int i = 0; i < _numberOfPeople; i++)
 		{
-			GameObject person = Instantiate(_indifferentFemalePrefab);
+			
+			GameObject person = Instantiate(PickNextPrefab());
 
 			person.transform.position = transform.position;
+			person.SetActive(false);
 			
 			_people.Add(person);
 
 			yield return null;
+		}
+
+		Ready = true;
+	}
+
+	private GameObject PickNextPrefab()
+	{
+		if (Random.value <= 0.5f)
+		{
+			return _indifferentFemalePrefab;
+		}
+		else
+		{
+			return _indifferentMalePrefab;
 		}
 	}
 }
