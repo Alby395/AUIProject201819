@@ -6,5 +6,9 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: kind
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: f676638aed8f4684f837ebb73b5e11f3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 20d70ecd1dba6f847badb4455fb7303b, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: c408946c758c5e241999e5df8d40c99f, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 795efa7dd924b974c8dd3a7f7b2eca6b, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: c9f21962853c94a45978b72afb554bed, type: 3}
