@@ -2,24 +2,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
-using ZXing.QrCode;
 
-
-public class QRCodeManager : MonoBehaviour
+public class QRCodeReader : MonoBehaviour
 {
-	[SerializeField] private RawImage _image;
-
 	[SerializeField] private TextMeshProUGUI _text;
 
+	private RawImage _rawImage;
 	private WebCamTexture _cam;
-
+	private BarcodeReader _barcodeReader;
 	
 	private void Start ()
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
-
-		WebCamDevice[] devices = WebCamTexture.devices;
+		_rawImage = GetComponent<RawImage>();
+		_barcodeReader = new BarcodeReader();
 		
+		WebCamDevice[] devices = WebCamTexture.devices;
 		
 		if (devices.Length > 0)
 		{
@@ -40,13 +38,14 @@ public class QRCodeManager : MonoBehaviour
 
 				if (permission == AndroidRuntimePermissions.Permission.Granted)
 				{
+
 					_cam = new WebCamTexture(devices[i].name);
 					_cam.Play();
-					_image.texture = _cam;	
+					_rawImage.texture = _cam;	
 				}
 				else
 				{
-					_text.text = "NOPE";
+					_text.text = "Nope";
 				}
 			}
 		}
@@ -54,13 +53,15 @@ public class QRCodeManager : MonoBehaviour
 
 	public void CapturePicture()
 	{
-		BarcodeReader barcodeReader = new BarcodeReader();
-
-		Result result = barcodeReader.Decode(_cam.GetPixels32(), _cam.width, _cam.height);
+		Result result = _barcodeReader.Decode(_cam.GetPixels32(), _cam.width, _cam.height);
 
 		if (result != null)
 		{
 			_text.text = result.Text;
+		}
+		else
+		{
+			_text.text = "Error";
 		}
 	}
 }
