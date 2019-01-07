@@ -1,0 +1,100 @@
+%++++++++++++++++++++++++++++++++++++++++
+% Don't modify this section unless you know what you're doing!
+\documentclass[letterpaper,12pt]{article}
+\usepackage{tabularx} % extra features for tabular environment
+\usepackage{amsmath}  % improve math presentation
+\usepackage{graphicx} % takes care of graphic including machinery
+\graphicspath{ {./images/} }
+\usepackage[margin=1in,letterpaper]{geometry} % decreases margins
+\usepackage{cite} % takes care of citations
+
+%++++++++++++++++++++++++++++++++++++++++
+
+
+\begin{document}
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE Advanced User Interface}\\[0.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large 2018/19}\\[0.5cm] % Major heading such as course name
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Public speech in Virtual Reality}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1cm]
+	
+	
+	\large\textit{Author}\\[0.3cm]
+	Alberto Patti\\
+	Lorenzo Salerno\\
+	Zhu Yu\\[1.5cm]
+	
+
+	\begin{abstract}
+	\end{abstract}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+ 			& Alberto Patti & alberto.patti@mail.polimi.it & 3389594345\\ \hline
+ 			& Lorenzo Salerno & & \\ \hline
+ 			& Zhu Yu & & \\ \hline
+		\end{tabular}
+	\end{table}
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+\section{Introduction}
+	\input{Files/Introduction.tex}
+	\pagebreak
+
+\section{NGR}
+	\input{Files/NGR.tex}
+	\pagebreak
+	
+\section{State of the art}
+	\input{Files/StateOfTheArt.tex}
+	\pagebreak
+	
+\section{UX design}
+
+\section{Implementation}
+	\input{Files/Implementation.tex}
+	\pagebreak
+	
+\section{Value proposition}
+
+\section{Future work}
+
+
+%++++++++++++++++++++++++++++++++++++++++
+% References section will be created automatically 
+% with inclusion of "thebibliography" environment
+% as it shown below. See text starting with line
+% \begin{thebibliography}{99}
+% Note: with this approach it is YOUR responsibility to put them in order
+% of appearance.
+
+\begin{thebibliography}{99}
+
+\bibitem{model}
+Rapee, R. M., \& Heimberg, R. G. (1997). A cognitive-behavioral model of anxiety in social phobia. Behaviour research and therapy, 35(8), 741-756.
+
+\end{thebibliography}
+
+
+\end{document}

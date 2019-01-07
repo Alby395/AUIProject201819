@@ -44,3 +44,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.log
+*.aux
+*.out
+*.gz
+*.toc
