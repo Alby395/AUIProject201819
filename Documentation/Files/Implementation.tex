@@ -1,11 +1,13 @@
 \subsection{Introduction}
-The main application of the project is an Android app built on Unity. This allows the creation of a VR environment with ease. The only problem that arises from this choice is that it isn't possible to retrieve the data from the biosensor and send them to the smartphone directly as Unity doesn't allow a direct communication. As shown in figure \ref{fig:communication} the information from the biosensor are read first by a Computer and then sent to a Firebase server that stores the values. This values are then read by the Android application using a HTTP request.
-\begin{figure}[h]
+The main application of the project is an Android app built on Unity. This allows the creation of a VR environment with ease. The only problem that arises from this choice is that it isn't possible to retrieve the data from the biosensor and send them to the smartphone directly as Unity doesn't allow a direct communication. As shown in figure \ref{fig:communication} the information from the biosensor are read first by a Computer and then sent to a Firebase server that stores the values. This values are then read by the Android application using HTTP requests.
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{ConnectionDiagram}
 	\caption{Diagram that shows how the communication from the biosensor to the smartphone works.}\label{fig:communication}
 \end{figure}
-
+The problem that arises with this choice is the need for authentication so that a smartphone is always connected to the right biosensor.\\
+To solve this problem, the authentication is done by using QR codes so that, whenever a biosensor is connected, the computer application generates a QR code that allows a smartphone to "connect" to it.\\
+This solution works with the assumption that the user is near the computer that displays the QR code. This is a safe assumption as the biosensor is connected by bluetooth to the computer and so it can't be too far from it.
 \subsection{Android Application}
 Language used: C\#\\
 Plugins:
@@ -14,6 +16,20 @@ Plugins:
 	\item Android Runtime Permissions
 \end{itemize}
 
+\subsubsection{Description}
+The core of the project is the Android application. It is split in three parts:
+\begin{enumerate}
+	\item QR code reader
+	\item Main menu
+	\item VR application
+\end{enumerate}
+
+\subsubsection{Algorithm design}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{AndroidQRCode}
+	\caption{Flowchart that describes how the connection to the right "room" in the Firebase server works}
+\end{figure}
 \subsection{Computer Client}
 Language used: Java\\
 Plugins:
@@ -60,4 +76,13 @@ The commands used from the client are:
 	\includegraphics[scale=0.55]{BiosensorDataDiagram}
 	\caption{Flowchart that describes how the client retrieve data from the Empatica E4}
 \end{figure}
+\pagebreak
+
+\subsection{Firebase server}
+Language used: javascript
+
+\subsubsection{Description}
+Firebase is a platform that offers the possibility develop web application easily. It was chosen as the backend for this project because of its ease of use.\\
+The main objective of the Firebase application is to store the data retrieved from the biosensor and then send them when requested.
+
 
