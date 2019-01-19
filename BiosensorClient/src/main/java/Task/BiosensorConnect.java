@@ -4,23 +4,25 @@ import javafx.concurrent.Task;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Scanner;
 
 public class BiosensorConnect extends Task<String>
 {
     private Socket socket;
-    private String biosensorCode;
-    private String biosensorType;
+    private String biosensor;
     private PrintWriter writer;
     private Scanner scanner;
 
     public BiosensorConnect(Socket socket, String biosensor)
     {
         this.socket = socket;
-        String[] strings = biosensor.split(" ");
-        this.biosensorCode = strings[1];
-        this.biosensorType = strings[2];
+        this.biosensor = biosensor.split(" ")[0];
+
     }
 
     @Override
@@ -28,10 +30,11 @@ public class BiosensorConnect extends Task<String>
     {
         try
         {
+
             scanner = new Scanner(socket.getInputStream());
             writer = new PrintWriter(socket.getOutputStream());
 
-            writer.println("device_connect " + biosensorCode);
+            writer.println("device_connect " + biosensor);
             writer.flush();
             String result = scanner.nextLine();
 
@@ -41,6 +44,15 @@ public class BiosensorConnect extends Task<String>
             }
             else
             {
+                HttpResponse response = HttpClient.newHttpClient().send(HttpRequest.newBuilder(URI.create("https://us-central1-auispeechvr-93119.cloudfunctions.net/createRoom"))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(
+                                "{\"room\": \"" + biosensor + "\"}"
+                        )).build(), HttpResponse.BodyHandlers.ofString());
+
+                if(response.statusCode() != 200)
+                    return "ERR";
+
                 writer.println("device_subscribe bvp ON");
                 writer.flush();
                 result = scanner.nextLine();
@@ -85,6 +97,6 @@ public class BiosensorConnect extends Task<String>
 
     public String getBiosensor()
     {
-        return biosensorCode + " " + biosensorType;
+        return biosensor;
     }
 }

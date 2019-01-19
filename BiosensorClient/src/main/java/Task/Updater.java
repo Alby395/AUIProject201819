@@ -1,12 +1,15 @@
 package Task;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import java.net.Socket;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -18,39 +21,35 @@ public class Updater implements EventHandler<WorkerStateEvent>
 
     private Label hr;
     private Label gsr;
-    private Label update;
+
+    private String biosensor;
 
     private ExecutorService executor;
     private BiosensorDataTask task;
+    private Timer timer;
 
-    public Updater(Socket socket, Label hr, Label gsr, Label update)
+    private HttpClient httpClient;
+    private URI valueUri;
+    private URI questionUri;
+
+    public Updater(Socket socket, Label hr, Label gsr, String biosensor)
     {
         this.socket = socket;
         this.hr = hr;
         this.gsr = gsr;
-        this.update = update;
         this.executor = Executors.newSingleThreadExecutor();
+        this.biosensor = biosensor;
+
+        valueUri = URI.create("https://us-central1-auispeechvr-93119.cloudfunctions.net/updateValues");
+        questionUri = URI.create("https://us-central1-auispeechvr-93119.cloudfunctions.net/addQuestion");
     }
 
     @Override
     public void handle(WorkerStateEvent event)
     {
-        String[] result = task.getValue();
-        if(result == null)
+        if(task.getValue())
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Connection error");
-            alert.setContentText("Something happened with the biosensor");
-            alert.showAndWait();
-            Platform.exit();
-        }
-        else
-        {
-            gsr.setText(result[0]);
-            hr.setText(result[1]);
-
-            startNewTask();
+            error();
         }
     }
 
@@ -58,7 +57,7 @@ public class Updater implements EventHandler<WorkerStateEvent>
     {
         if(!executor.isShutdown())
         {
-            task = new BiosensorDataTask(socket);
+            task = new BiosensorDataTask(socket, hr, gsr, executor);
             task.setOnSucceeded(this);
             executor.submit(task);
         }
@@ -66,23 +65,71 @@ public class Updater implements EventHandler<WorkerStateEvent>
 
     private void setNewTimer()
     {
-        System.out.println(executor.isShutdown());
-        if(!executor.isShutdown())
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask()
         {
-           new Timer().schedule(new TimerTask()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
+                try
                 {
-                    //TODO Add connection to server
-                    setNewTimer();
+                    HttpResponse response = httpClient.send(HttpRequest.newBuilder(valueUri)
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(
+                                    "{\"room\": \"" + biosensor + "\", \"hr\":\"" + hr.getText() + "\", \"gsr\":\"" + gsr.getText() +"\"}"
+                            )).build(), HttpResponse.BodyHandlers.ofString());
+                    if(response.statusCode() != 200)
+                    {
+                        Platform.runLater(() -> error());
+                    }
+                } catch (Exception e)
+                {
+                    Platform.runLater(() -> error());
                 }
-            }, Integer.decode(update.getText()) * 1000);
-        }
+            }
+        },1000, 2000);
     }
 
     public void stop()
     {
+        timer.cancel();
         executor.shutdown();
+
+        httpClient.sendAsync(HttpRequest.newBuilder(URI.create("https://us-central1-auispeechvr-93119.cloudfunctions.net/removeRoom"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(
+                        "{\"room\":\"" + biosensor + "\"}"
+                )).build(), HttpResponse.BodyHandlers.ofString());
+    }
+
+    private void error()
+    {
+        stop();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Connection error");
+        alert.setContentText("Something happened with the biosensor");
+        alert.showAndWait();
+        Platform.exit();
+    }
+
+    public void initialize()
+    {
+        startNewTask();
+        httpClient = HttpClient.newHttpClient();
+        setNewTimer();
+    }
+
+    public void sendQuestion(String question)
+    {
+        httpClient.sendAsync(HttpRequest.newBuilder(questionUri)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(
+                        "{\"room\":\"" + biosensor + "\", \"question\":\"" + question + "\"}"
+                )).build(), HttpResponse.BodyHandlers.ofString()).thenAcceptAsync(response ->
+                    {
+                        if(response.statusCode() != 200)
+                            Platform.runLater(this::error);
+                    });
     }
 }

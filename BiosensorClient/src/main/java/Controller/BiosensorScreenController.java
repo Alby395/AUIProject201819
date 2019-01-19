@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -28,14 +29,11 @@ import java.util.concurrent.Executors;
 public class BiosensorScreenController
 {
     @FXML
+    public TextArea questionTextArea;
+    @FXML
     private Label HRValue;
     @FXML
     private Label GSRValue;
-    @FXML
-    private Label updateTimeLabel;
-
-    @FXML
-    private Slider updateTimeSlider;
 
     @FXML
     private ImageView qrCodeImageView;
@@ -47,14 +45,12 @@ public class BiosensorScreenController
 
     public void initialize()
     {
-        updateTimeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateTimeLabel.setText(Integer.toString(newValue.intValue()));
-        });
 
         Platform.runLater(()->{
-            updater = new Updater(socket, HRValue, GSRValue, updateTimeLabel);
+            updater = new Updater(socket, HRValue, GSRValue, biosensor);
+            updater.initialize();
             HRValue.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindow);
-            updater.startNewTask();
+
         });
     }
 
@@ -106,6 +102,10 @@ public class BiosensorScreenController
 
     public void sendQuestion(ActionEvent actionEvent)
     {
+        String string = questionTextArea.getText();
+        if(!string.equals(""))
+            updater.sendQuestion(string);
 
+        questionTextArea.setText("");
     }
 }

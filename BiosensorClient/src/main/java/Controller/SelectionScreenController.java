@@ -100,11 +100,15 @@ public class SelectionScreenController
                 BiosensorListTask task = new BiosensorListTask(socket);
                 task.setOnSucceeded(handler ->
                 {
-                    List<String> strings = task.getValue();
+                    String[] strings = task.getValue();
 
-                    if (strings.size() > 1)
-                        biosensorList.getItems().addAll(strings.subList(1, strings.size()));
-
+                    if (strings.length > 1)
+                    {
+                        for(int i = 1 ; i < strings.length ; i++)
+                        {
+                            biosensorList.getItems().add(strings[i].trim());
+                        }
+                    }
                 });
                 Thread thread = new Thread(task);
                 thread.run();
@@ -134,7 +138,7 @@ public class SelectionScreenController
             {
                 try
                 {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("BiosensorScreen.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/BiosensorScreen.fxml"));
                     Scene scene = new Scene(loader.load());
 
                     BiosensorScreenController controller = loader.getController();

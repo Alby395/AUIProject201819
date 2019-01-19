@@ -8,7 +8,7 @@ public class Main extends Application
 {
     public void start(Stage stage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/SelectionScreen.fxml"));
 
         Scene scene = new Scene(root);
         stage.setResizable(false);

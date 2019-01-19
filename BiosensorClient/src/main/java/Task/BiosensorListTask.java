@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-public class BiosensorListTask extends Task<List<String>>
+public class BiosensorListTask extends Task<String[]>
 {
     private Socket socket;
 
@@ -18,7 +18,7 @@ public class BiosensorListTask extends Task<List<String>>
     }
 
     @Override
-    protected List<String> call() throws Exception
+    protected String[] call() throws Exception
     {
         try
         {
@@ -28,7 +28,7 @@ public class BiosensorListTask extends Task<List<String>>
             writer.println("device_list");
             writer.flush();
             String string = scanner.nextLine();
-            return List.of(string.split("\\|"));
+            return string.split("\\|");
         }
         catch (Exception e)
         {
