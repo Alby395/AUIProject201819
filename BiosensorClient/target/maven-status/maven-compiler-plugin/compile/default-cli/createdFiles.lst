@@ -1,0 +1,8 @@
+Main.class
+TempServer.class
+Controller\BiosensorScreenController.class
+Task\BiosensorListTask.class
+Task\Updater$1.class
+Controller\SelectionScreenController.class
+Task\BiosensorConnect.class
+Task\Updater.class

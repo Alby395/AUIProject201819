@@ -83,6 +83,22 @@ Language used: javascript
 
 \subsubsection{Description}
 Firebase is a platform that offers the possibility develop web application easily. It was chosen as the backend for this project because of its ease of use.\\
-The main objective of the Firebase application is to store the data retrieved from the biosensor and then send them when requested.
-
-
+The main objective of the Firebase application is to store the data retrieved from the biosensor and then send them when requested.\\
+The services used on Firebase are:
+\begin{itemize}
+	\item Realtime Database.
+	\item Cloud functions;
+\end{itemize}
+The Realtime Database is a NoSQL database were data is stored as JSON. It is used to store the value read by the biosensor and the questions that have to be sent to the mobile application.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{DatabaseStructure}
+	\caption{Structure of the Realtime Database}
+\end{figure}
+Cloud functions are used in order to let the PC client access the database. The Cloud functions are tasks that can be triggered by HTTP requests. The values required are sent as a JSON string in the body of the request.
+\begin{itemize}
+	\item createRoom: creates a room with the given room code;
+	\item updateValues: update the values of the hr and gsr stored in the given room;
+	\item addQuestion: add a question to the list in the given room;
+	\item removeRoom: Closes the room with the given room code.
+\end{itemize}

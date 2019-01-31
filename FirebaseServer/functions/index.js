@@ -50,7 +50,7 @@ exports.addQuestion = functions.https.onRequest((req, res) =>
         console.log(snapshot.val().hr);
         if(snapshot.exists())
         {
-            return db.ref("/Rooms/" + room + "/Questions").push().set(question);
+            return db.ref("/Question/" + room).push().set(question);
         }
         throw new Error("Error");
 
@@ -71,6 +71,7 @@ exports.removeRoom = functions.https.onRequest((req, res) =>
     const room = req.body.room;
 
     db.ref("/Rooms").child(room).remove();
+    db.ref("/Questions").child(room).remove();
 
     res.status(200).send();
 })

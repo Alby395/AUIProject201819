@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1000277872523",
+    "firebase_url": "https://auispeechvr-93119.firebaseio.com",
+    "project_id": "auispeechvr-93119",
+    "storage_bucket": "auispeechvr-93119.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000277872523:android:8cd186ed613c9882",
+        "android_client_info": {
+          "package_name": "com.auiproject201819.SpeechVR"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000277872523-irc6vbt15bb99ueu6vocrht4qk227qg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBFoeR_AlxHAFn_EbTXcBNWBiHl_ctTNw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
