@@ -50,7 +50,7 @@ exports.addQuestion = functions.https.onRequest((req, res) =>
         console.log(snapshot.val().hr);
         if(snapshot.exists())
         {
-            return db.ref("/Question/" + room).push().set(question);
+            return db.ref("/Questions/" + room).push().set(question);
         }
         throw new Error("Error");
 
