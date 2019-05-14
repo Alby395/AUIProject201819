@@ -1,35 +1,97 @@
 \subsection{Introduction}
-The main application of the project is an Android app built on Unity. This allows the creation of a VR environment with ease. The only problem that arises from this choice is that it isn't possible to retrieve the data from the biosensor and send them to the smartphone directly as Unity doesn't allow a direct communication. As shown in figure \ref{fig:communication} the information from the biosensor are read first by a Computer and then sent to a Firebase server that stores the values. This values are then read by the Android application using HTTP requests.
+The whole project is divided into different applications:
+\begin{itemize}
+	\item Android application built on Unity\\It's the core application of the project that is going to run all the operation required to show and manage the virtual environment shown to the user;
+	\item Android application\\It's one of the possible way to read the data from the biosensor.
+	\item Pc application\\It's one of the possible way to read the data from the biosensor.
+	\item Firebase Server\\Allows the communication between the pc client and the Firebase database.
+\end{itemize}
+
+Unfortunately, Unity doesn't offer a simple way to retrieve the data directly from the biosensor and this is the reason that the two alternative application had to be made.
+In order to make to communication as simple as possible, it was decided to take advantage of Firebase as a way to store and retrieve data thanks to its database.\\
+So, as shown in figure \ref{fig:communication}, the information from the biosensor are read first by a Computer or an Android device and then sent to a Firebase server that stores the values.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{ConnectionDiagram}
 	\caption{Diagram that shows how the communication from the biosensor to the smartphone works.}\label{fig:communication}
 \end{figure}
-The problem that arises with this choice is the need for authentication so that a smartphone is always connected to the right biosensor.\\
-To solve this problem, the authentication is done by using QR codes so that, whenever a biosensor is connected, the computer application generates a QR code that allows a smartphone to "connect" to it.\\
-This solution works with the assumption that the user is near the computer that displays the QR code. This is a safe assumption as the biosensor is connected by bluetooth to the computer and so it can't be too far from it.
-\subsection{Android Application}
+One problem that arises with this choice is the need for authentication so that the Unity application is always connected to the right biosensor.\\
+To solve this problem, the authentication is done by using QR codes so that the device connected to the biosensor generates a QR code that allows a smartphone to "connect" to it.\\
+This solution works with the assumption that the user is near the device that displays the QR code. This is a safe assumption as the biosensor is connected by bluetooth to that device and so the user shouldn't be too far from it.
+
+\subsection{Main Android Application}
 Language used: C\#\\
-Plugins:
+Plugins \& Libraries:
 \begin{itemize}
 	\item ZXing
 	\item Android Runtime Permissions
+	\item Speech Engine
+	\item FirebaseDatabase
 \end{itemize}
 
 \subsubsection{Description}
-The core of the project is the Android application. It is split in three parts:
+This is the core of the project and it's split in three parts:
 \begin{enumerate}
-	\item QR code reader
-	\item Main menu
-	\item VR application
+	\item QR code reader that allows to connect the application to the right "room" where it can retrieve the required data as stated before;
+	\item Main menu that contains all of the settings available for the application;
+	\item VR application that represent the main component.
 \end{enumerate}
 
+In order to accomplish all the task required, the application takes advantages of the functionalities offered by Unity and by the additional libraries to:
+\begin{itemize}
+	\item Read QR codes thanks to ZXing;
+	\item Communicate with Firebase Realtime Database thanks to the respective plugin;
+	\item Convert Text-to-Speech thanks to Speech Engine;
+	\item Ask the required permissions to execute operations thanks to Android Runtime Permissions;
+	\item Track the activity of the microphone thanks to the functions available on Unity.
+\end{itemize} 
+
+In order to keep the algorithm as simple as possible, most of them use a counter to decide whether the have to perform an action or not. Usually the algorithm is:
+\begin{enumerate}
+	\item Read value;
+	\item Analyze the value read;
+	\item Increase or decrease the counter based on the analysis;
+	\item Check whether the counter is greater or lower than a set threshold;
+	\item Perform the action if the threshold was exceeded.
+\end{enumerate}
+This system is used in many algorithm (as shown in the next section) as a way to manage the environment and decide which action should be performed.
 \subsubsection{Algorithm design}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{AndroidQRCode}
 	\caption{Flowchart that describes how the connection to the right "room" in the Firebase server works}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{BaseValue}
+	\caption{Flowchart that describes how the search of the base value for HR and GSR works. The two operations are executed in two different coroutines.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.38]{Tracking}
+	\caption{Flowchart that describes how the HR and GSR are used to determine whether to increase the level or not.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{Microphone}
+	\caption{Flowchart that describes how the microphone is used to determine whether the animations should be played or not.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.60]{QuestionVoice}
+	\caption{Flowchart that describes how question system works when the user doesn't want to get the questions from the audience.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.58]{QuestionAudience}
+	\caption{Flowchart that describes how question system works when the user want to get the questions from the audience.}
+\end{figure}
+
 \subsection{Computer Client}
 Language used: Java\\
 Plugins:
@@ -74,12 +136,12 @@ The commands used from the client are:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{BiosensorDataDiagram}
-	\caption{Flowchart that describes how the client retrieve data from the Empatica E4}
+	\caption{Flowchart that describes how the client retrieve data from the Empatica E4 after the connection has been established}
 \end{figure}
 \pagebreak
 
 \subsection{Firebase server}
-Language used: javascript
+Language used: Javascript
 
 \subsubsection{Description}
 Firebase is a platform that offers the possibility develop web application easily. It was chosen as the backend for this project because of its ease of use.\\
@@ -102,3 +164,29 @@ Cloud functions are used in order to let the PC client access the database. The 
 	\item addQuestion: add a question to the list in the given room;
 	\item removeRoom: Closes the room with the given room code.
 \end{itemize}
+
+\subsection{Android Application}
+Language used: Java
+Plugins \& Libraries:
+\begin{itemize}
+	\item ZXing
+	\item AndroidImagePopup
+	\item FirebaseDatabase
+	\item Empalink
+\end{itemize}
+
+\subsubsection{Description}
+The Android application main task is to retrieve data from the Empatica E4 and send the values to the Firebase Database. in order to do this, it communicates with the biosensor thanks to the Empalink library developed by Empatica that allows to read the data directly from the Empatica E4 without the need of another application (unlike the pc application that needs the E4 streaming server.
+
+\subsubsection{Algorithm design}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{BiosensorConnectDiagramAndroid}
+	\caption{Flowchart that describes how the client connects to the Empatica E4 biosensor}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{BiosensorDataDiagram}
+	\caption{Flowchart that describes how the client retrieve data from the Empatica E4 after the connection has been established (same as the pc client)}
+\end{figure}

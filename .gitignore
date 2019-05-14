@@ -11,6 +11,7 @@ Assets/AssetStoreTools*
 #Exclude Plugins
 [Aa]ssets/Plugins/
 [Aa]ssets/Plugins.meta
+firebase.json
 
 # Exclude rider idea data
 .idea

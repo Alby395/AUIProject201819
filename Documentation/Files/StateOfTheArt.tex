@@ -1,5 +1,5 @@
 \subsection{Applications}
-There are many application with the same objective that were developed and are nowadays available:
+There are many application with the same target and objectives as this project that were developed and are nowadays available:
 \begin{itemize}
 	\item Virtual Orator
 	\item Speech Center VR
@@ -7,10 +7,25 @@ There are many application with the same objective that were developed and are n
 	\item \#BeFearless
 	\item Public Speaking Simulator VR
 \end{itemize}
-Some of them are available on smartphone other are only available on PC using a HDM (HTC Vive, Oculus Rift etc...). All of them offer similar features but they also offer unique options to differentiate from the others application.
+These are some of the available applications but, even though the premises are the same, each of them present different features and are available on different platform as shown in the tables below.
+
+{
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Virtual Orator & Oculus Rift / HTC Vive & 3D Environment\\ \hline
+		Speech Center VR & Oculus Rift & 3D Environment\\ \hline
+		VirtualSpeech & Android & 360° video\\ \hline
+		\#BeFearless & Android & 3D Environment\\ \hline
+		Public Speaking Simulator VR & Android & 3D Environment\\ \hline
+	\end{tabular}
+\end{table}
+} 
 {
 \renewcommand{\arraystretch}{1.5}
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|}
 		\cline{2-11}
@@ -27,25 +42,24 @@ Some of them are available on smartphone other are only available on PC using a 
 	\end{tabular}
 \end{table}
 }
-
-This project uses the same general idea as these applications and tries to expand it by introducing a biosensor as a mean to change the virtual environment the user is put in. 
+The base of this project is the same as the application listed before: giving the user an environment where he/she can freely try his/her speech. What makes SpeechVR unique is the usage of a biosensor as a mean to control the environment the user is put in. In fact, the only app that uses a biosensor are VirtualSpeech and \#BeFearless but they use it as another parameter to give a score to the overall performance.
 
 \subsection{Research}
-There are many researches about public speech anxiety (and social phobia) but the most relevant for the sake of this project are:
+There are many researches about public speech anxiety (and social phobia in general) but the most relevant for the sake of this project are:
 
 \begin{itemize}
-	\item Slater, M., Pertaub, D. P., \& Steed, A. (1999). Public speaking in virtual reality: Facing an audience of avatars. IEEE Computer Graphics and Applications, 19(2), 6-9.\\[0.15cm]
+	\item Slater, M., Pertaub, D. P., \& Steed, A. (1999). Public speaking in virtual reality: Facing an audience of avatars.\cite{VRPublicSpeaking}\\[0.15cm]
 	The focus of this paper is to analyze how people evaluate themselves while in front of an audience with different reactions using VR.
 	
-	\item Pertaub, D. P., Slater, M., \& Barker, C. (2002). An experiment on public speaking anxiety in response to three different types of virtual audience. Presence: Teleoperators \& Virtual Environments, 11(1), 68-78.\\[0.15cm]
-	This is an extension of the previous research.
+	\item Pertaub, D. P., Slater, M., \& Barker, C. (2002). An experiment on public speaking anxiety in response to three different types of virtual audience.\cite{VRPublicSpeaking2}\\[0.15cm]
+	This is a more thorough analysis of the previous research.
 	
-	\item Chollet, M., Sratou, G., Shapiro, A., Morency, L. P., \& Scherer, S. (2014, May). An interactive virtual audience platform for public speaking training. In Proceedings of the 2014 international conference on Autonomous agents and multi-agent systems (pp. 1657-1658). International Foundation for Autonomous Agents and Multiagent Systems.\\[0.15cm]
-	The focus of this research is to design a way to let people learn how to behave in front of a fake audience that reacts to the user actions. This research doesn't use VR but instead works with screens and audiovisual sensors to analyze the user behaviour.
+	\item Chollet, M., Sratou, G., Shapiro, A., Morency, L. P., \& Scherer, S. (2014, May). An interactive virtual audience platform for public speaking training.\cite{VRPublicSpeaking3} \\[0.15cm]
+	The focus of this research is to design a way to let people learn how to behave in front of a fake audience that reacts to the user actions. This research doesn't use VR but instead works with screens and audiovisual sensors (Kinect) to analyze the user behaviour.
 	
-	\item Poeschl, S., \& Doering, N. (2012, March). Virtual training for Fear of Public Speaking—Design of an audience for immersive virtual environments. In Virtual Reality Short Papers and Posters (VRW), 2012 IEEE (pp. 101-102). IEEE.\\[0.15cm]
+	\item Poeschl, S., \& Doering, N. (2012, March). Virtual training for Fear of Public Speaking—Design of an audience for immersive virtual environments.\cite{VRPublicSpeaking4}\\[0.15cm]
 	This research explains how to develop an audience that shows realistic behaviour.
 	
-	\item McKinney, M. E., Gatchel, R. J., \& Paulus, P. B. (1983). The effects of audience size on high and low speech-anxious subjects during an actual speaking task. Basic and Applied Social Psychology, 4(1), 73-87.\\[0.15cm]
+	\item McKinney, M. E., Gatchel, R. J., \& Paulus, P. B. (1983). The effects of audience size on high and low speech-anxious subjects during an actual speaking task.\cite{VRPublicSpeaking5}\\[0.15cm]
 	This research studies how people react during a speech in front of different amount of people hearing.
 \end{itemize}

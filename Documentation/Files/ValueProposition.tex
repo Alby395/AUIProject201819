@@ -1,11 +1,20 @@
-\subsection{Challenge}
-The main challenge that came up during the development of the project were:
+\subsection{Challenges}
+The main challenges that came up during the development of the project were:
 \begin{itemize}
 	\item finding a way to put the subject in a "controlled" stressful situation without leaving him/her in an anxious state;
-	\item give instruction to the user so that he/she won't stay silent while in front of the virtual audience.
+	\item giving instruction to the user so that he/she won't stay silent while in front of the virtual audience.
 \end{itemize}
 
 
 \subsection{Main difficulties}
-The main difficulty of this project is given by the platform used. Even though Android devices are able to run VR application, they have really limited resources.In fact, they can be used to display simple scenery or games with a limited amount of polygons or 360\textdegree{} videos. Because of this limitation, some choices had to adjusted making the development harder.\\
-Also, the biosensor used (Empatica E4) isn't the best fit for the purpose of this project. It can track the necessary data but it wasn't intended as a device to track parameters in real time and so noise and other problems were introduced.
+\begin{itemize}
+	\item Even though Android devices are able to run VR application, they can only be used to display simple scenery, games with a limited amount of polygons or 360\textdegree{} videos. In fact, the limited resources available on a smartphone makes it difficult to develop VR applications that can run without performance problems. Because of this, during development some choices had to be adjusted or changed in order to make the application run. Unfortunately, this was not enough. In fact, the smartphone used to test the application (Huawei P10 lite) was not powerful enough to handle it correctly.\\
+	\item The biosensor used (Empatica E4) isn't the best fit for the purpose of this project. It is able to track data in real time but even the smallest movement is enough to disrupt the readings, leading to either wrong values or no value at all. Also, the Empatica E4 doesn't track the HR directly, it needs to take the Inter-Beat Interval (ibi) and convert it into HR.
+	\begin{equation}
+		HR = \left \lfloor \frac{60}{ibi} \right \rfloor
+	\end{equation}
+\end{itemize}
+
+\subsection{Analysis}
+The effectiveness of VR as a mean to ease the anxiety of people that have the fear of speaking in public is a fact reported in many researches: it doesn't really improve the people's ability to talk to an audience but it helps them gaining enough self confidence so that they can gather the courage to face the audience.\\
+As stated previously, there are many applications that allows the user to deal with this kind of fear but none of them uses a biosensor as a mean to manage the environment, instead they use it as a way to measure the overall score of the performance. This is what makes this project different: even though the base application is the same as the other, it offers an experience that changes based on the values read from the biosensor.

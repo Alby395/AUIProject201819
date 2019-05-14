@@ -29,11 +29,17 @@ public class PresetMenuScript : MonoBehaviour
         _canvas = GetComponent<Canvas>();
     }
 
+    /// <summary>
+    /// Set the label for the audience value
+    /// </summary>
     public void AudienceValue()
     {
         audienceNumber.text = audience.value.ToString();
     }
     
+    /// <summary>
+    /// Change the value of the sliders
+    /// </summary>
     public void ChangeValue()
     {
         if (!_working)
@@ -63,6 +69,12 @@ public class PresetMenuScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Set the preset value
+    /// </summary>
+    /// <param name="kValue">Kind value</param>
+    /// <param name="iValue">Indifferent value</param>
+    /// <param name="sValue">Serious value</param>
     public void SetPresetValue(float kValue, float iValue, float sValue)
     {
         kind.value = kValue;
@@ -70,6 +82,9 @@ public class PresetMenuScript : MonoBehaviour
         serious.value = sValue;
     }
 
+    /// <summary>
+    /// Start the next screen
+    /// </summary>
     public void StartTheater()
     {
         MainMenuManager.Instance.SetQuantity((int) audience.value, kind.value, indifferent.value, serious.value);
@@ -77,6 +92,9 @@ public class PresetMenuScript : MonoBehaviour
         vrWarning.StartWarning();
     }
 
+    /// <summary>
+    /// Returns to the previous menu
+    /// </summary>
     public void Back()
     {
         _canvas.enabled = false;

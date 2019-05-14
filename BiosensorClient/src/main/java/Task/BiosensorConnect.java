@@ -53,7 +53,7 @@ public class BiosensorConnect extends Task<String>
                 if(response.statusCode() != 200)
                     return "ERR";
 
-                writer.println("device_subscribe bvp ON");
+                writer.println("device_subscribe ibi ON");
                 writer.flush();
                 result = scanner.nextLine();
                 if(result.contains("ERR"))

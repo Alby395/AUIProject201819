@@ -19,7 +19,7 @@ public class ObjectPoolManager : MonoBehaviour
 	[SerializeField] private List<GameObject> indifferentPrefabs;
 	[SerializeField] private List<GameObject> seriousPrefabs;
 	
-    private List<GameObject> _people;
+    private List<Person> _people;
 	private int _seatedPeople;
 
 	private void Awake()
@@ -36,7 +36,7 @@ public class ObjectPoolManager : MonoBehaviour
 
 	private void Start()
 	{
-		_people = new List<GameObject>();
+		_people = new List<Person>();
 		
 		StartCoroutine(InitPoolCoroutine());
 	}
@@ -45,10 +45,10 @@ public class ObjectPoolManager : MonoBehaviour
 	/// Returns a given person to the ObjectPoolManager
 	/// </summary>
 	/// <param name="person">Person that is returning in the ObjectPoolManager</param>
-	public void ReturnToPool(GameObject person)
+	public void ReturnToPool(Person person)
     {
 	    person.transform.position = transform.position;
-	    person.SetActive(false);
+	    person.gameObject.SetActive(false);
 	    _seatedPeople--;
     }
 
@@ -57,9 +57,9 @@ public class ObjectPoolManager : MonoBehaviour
 	/// </summary>
 	/// <param name="n">Number of people to give.</param>
 	/// <returns>List of people of length n.</returns>
-	public List<GameObject> GivePeople(int n)
+	public List<Person> GivePeople(int n)
 	{
-		List<GameObject> people;
+		List<Person> people;
 
 		if (n <= _numberOfPeople - _seatedPeople)
 		{
@@ -75,28 +75,34 @@ public class ObjectPoolManager : MonoBehaviour
 		
 		return people;
 	}
-
+	
 	/// <summary>
-	/// Returns the number of people that is still in the ObjectPoolManager.
+	/// Checks whether there are people that are not assigned
 	/// </summary>
-	/// <returns>The number of people remaining.</returns>
-	public int GetRemainingElement()
-	{
-		return _numberOfPeople - _seatedPeople;
-	}
-
+	/// <returns>True if there are people available, false otherwise</returns>
 	public bool RemainingElement()
 	{
-		return _seatedPeople == _numberOfPeople;
+		return _seatedPeople < _numberOfPeople;
 	}
 	
+	/// <summary>
+	/// Coroutine that initializes the pool
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator InitPoolCoroutine()
 	{
-
+		
 		_numberOfPeople = MainMenuManager.Instance.GetAudience();
 		_kind = MainMenuManager.Instance.GetKind();
 		_indifferent = MainMenuManager.Instance.GetIndifferent();
 		_serious = MainMenuManager.Instance.GetSerious();
+		
+		Debug.Log("Audience: " + _numberOfPeople);
+		Debug.Log("Kind: " + _kind);
+		Debug.Log("Indifferent: " + _indifferent);
+		Debug.Log("Serious: " + _serious);
+
+		_kind += _numberOfPeople - (_kind + _indifferent + _serious);
 		
 		for (int i = 0; i < _numberOfPeople; i++)
 		{
@@ -105,24 +111,28 @@ public class ObjectPoolManager : MonoBehaviour
 			person.transform.position = transform.position;
 			person.SetActive(false);
 			
-			_people.Add(person);
+			_people.Add(person.GetComponent<Person>());
 
 			yield return null;
 		}
 
 		for (int i = 0; i < _people.Count; i++)
 		{
-			GameObject temp = _people[i];
+			Person temp = _people[i];
 			int randomIndex = Random.Range(i, _people.Count);
 			_people[i] = _people[randomIndex];
 			_people[randomIndex] = temp;
 
 			yield return null;
 		}
-		
+
 		Ready = true;
 	}
 
+	/// <summary>
+	/// Picks the next Prefab that is going to be instantiated
+	/// </summary>
+	/// <returns>The prefab to instantiate</returns>
 	private GameObject PickNextPrefab()
 	{
 		if (_kind > 0)
@@ -138,4 +148,36 @@ public class ObjectPoolManager : MonoBehaviour
 		return seriousPrefabs[Random.Range(0, seriousPrefabs.Count)];
 
      }
+
+	/// <summary>
+	/// Gives the list of all the people in the pool
+	/// </summary>
+	/// <returns>The list of people in the pool.</returns>
+	public List<Person> GetPool()
+	{
+		return _people;
+	}
+
+	/// <summary>
+	/// Starts the coroutine that destroys every person in the pool.
+	/// </summary>
+	public void DestroyEverything()
+	{
+		StartCoroutine(DestroyEverythingCoroutine());
+	}
+
+	/// <summary>
+	/// Coroutine that destroys every person in the pool.
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator DestroyEverythingCoroutine()
+	{
+		yield return new WaitForSeconds(5f);
+		for (int i = 0; i < _people.Count; i++)
+		{
+			Destroy(_people[i].gameObject);
+
+			yield return null;
+		}
+	}
 }

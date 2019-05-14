@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class VRPointer: MonoBehaviour
 {
     [SerializeField] private Image reticle;
-    [SerializeField] private Image reticleBackground;
-    [SerializeField] private float distance = 200;
+    
     [SerializeField] private float time;
     [SerializeField] private Transform cameraTransform;
     
@@ -15,38 +14,37 @@ public class VRPointer: MonoBehaviour
     private bool _active;
     private bool _complete;
 
-    private Vector3 _scale;
     private VRInteractiveItem _item;
-    
-    private void Start()
-    {
-        transform.position = cameraTransform.position + cameraTransform.forward * distance;
-        _scale = transform.localScale;
-    }
+   
 
+    /// <summary>
+    /// Stop the countdown
+    /// </summary>
     public void StopCount()
     {
         StopCoroutine(_coroutine);
         reticle.enabled = false;
         
-        transform.position = cameraTransform.position + cameraTransform.forward * distance;
-        transform.localScale = _scale;
-        
         _active = false;
     }
 
+    /// <summary>
+    /// Starts the countdown before activating the interaction
+    /// </summary>
+    /// <param name="hit">Item to interact with</param>
     public void StartCount(RaycastHit hit)
     {
         if (!_active)
         {
-            transform.position = hit.point;
-            transform.localScale = _scale * hit.distance/distance;
-            
             _item = hit.collider.GetComponent<VRInteractiveItem>();
             _coroutine = StartCoroutine(FillReticle());
         }
     }
 
+    /// <summary>
+    /// Coroutine that fills the reticle
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FillReticle()
     {
         _active = true;
@@ -70,6 +68,10 @@ public class VRPointer: MonoBehaviour
         _item.StartInteraction();
     }
 
+    /// <summary>
+    /// Returns whether the Pointer is counting or not
+    /// </summary>
+    /// <returns>whether the Pointer is counting or not</returns>
     public bool IsCounting()
     {
         return _active;

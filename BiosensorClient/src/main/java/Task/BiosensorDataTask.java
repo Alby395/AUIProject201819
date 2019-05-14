@@ -75,7 +75,7 @@ public class BiosensorDataTask extends Task<Boolean>
                 Platform.runLater(() ->
                 {
                     gsrLabel.setText(getGsrValue());
-                    hrLabel.setText(getHrValue());
+                    hrLabel.setText(String.valueOf(Math.round(60/Float.parseFloat(getHrValue()))));
                     setPrinted();
                 });
 

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class StartButton: MonoBehaviour, VRInteractiveItem
 {
+    [SerializeField] private StartingActivity activity;
     public void StartInteraction()
     {
-        Debug.Log("MIAO");
+        activity.StartBreathing();
     }
 }

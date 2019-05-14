@@ -37,26 +37,55 @@ public class TempServer
             int gsr = 20;
             int hr = 60;
             int i = 0;
+            boolean check = false;
+
             while(true)
             {
-                writer.println("E4_Bvp 123345627891.123 " + hr);
-                writer.flush();
-
-                writer.println("E4_Gsr 123345627891.123 " + gsr);
-                writer.flush();
-
-                if(i < 10)
+                if(!check)
                 {
-                    gsr++;
-                    hr++;
-                    i++;
+                    writer.println("E4_Bvp 123345627891.123 " + hr);
+                    writer.flush();
+
+                    writer.println("E4_Gsr 123345627891.123 " + gsr);
+                    writer.flush();
+
+                    if (i < 10)
+                    {
+                        gsr++;
+                        hr++;
+                        i++;
+                    } else
+                    {
+                        i = 0;
+                        gsr = 20;
+                        hr = 60;
+                    }
+
+                    if(i%3 == 0)
+                    {
+                        check = true;
+                    }
                 }
-                else
+
+                if(check)
                 {
-                    i = 0;
-                    gsr = 20;
-                    hr = 60;
+                    System.out.println("Checking");
+                    String string = scanner.nextLine();
+                    if ("pause ON".equals(string))
+                    {
+                        System.out.println("Stop");
+                        check = true;
+                        writer.println("R pause ON");
+                        writer.flush();
+                    } else if ("pause OFF".equals(string))
+                    {
+                        System.out.println("Go");
+                        check = false;
+                        writer.println("R pause OFF");
+                        writer.flush();
+                    }
                 }
+
             }
 
         } catch (IOException e)

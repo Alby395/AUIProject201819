@@ -76,7 +76,7 @@ public class Updater implements EventHandler<WorkerStateEvent>
                     HttpResponse response = httpClient.send(HttpRequest.newBuilder(valueUri)
                             .header("Content-Type", "application/json")
                             .POST(HttpRequest.BodyPublishers.ofString(
-                                    "{\"room\": \"" + biosensor + "\", \"hr\":\"" + hr.getText() + "\", \"gsr\":\"" + gsr.getText() +"\"}"
+                                    "{\"room\": \"" + "PcClientSender_EmpaticaE4_" + biosensor + "\", \"hr\":\"" + hr.getText() + "\", \"gsr\":\"" + gsr.getText() +"\"}"
                             )).build(), HttpResponse.BodyHandlers.ofString());
                     if(response.statusCode() != 200)
                     {
@@ -98,7 +98,7 @@ public class Updater implements EventHandler<WorkerStateEvent>
         httpClient.sendAsync(HttpRequest.newBuilder(URI.create("https://us-central1-auispeechvr-93119.cloudfunctions.net/removeRoom"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(
-                        "{\"room\":\"" + biosensor + "\"}"
+                        "{\"room\":\"" + "PcClientSender_EmpaticaE4_" + biosensor + "\"}"
                 )).build(), HttpResponse.BodyHandlers.ofString());
     }
 
@@ -125,7 +125,7 @@ public class Updater implements EventHandler<WorkerStateEvent>
         httpClient.sendAsync(HttpRequest.newBuilder(questionUri)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(
-                        "{\"room\":\"" + biosensor + "\", \"question\":\"" + question + "\"}"
+                        "{\"room\":\"" + "PcClientSender_EmpaticaE4_" + biosensor + "\", \"question\":\"" + question + "\"}"
                 )).build(), HttpResponse.BodyHandlers.ofString()).thenAcceptAsync(response ->
                     {
                         if(response.statusCode() != 200)

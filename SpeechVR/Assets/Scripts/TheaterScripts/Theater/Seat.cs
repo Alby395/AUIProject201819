@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class Seat : MonoBehaviour
 {
-    private GameObject _person;
+    private Person _person;
     
     private bool _occupied;
-    private Animator _animator;
     
-    private readonly Vector3 _offset = new Vector3(1.2f, 0.3f, 0f);
+    private readonly Vector3 _offset = new Vector3(1f, 0.5f, 0f);
 
     /// <summary>
     /// Checks whether the seat is occupied
@@ -22,10 +21,9 @@ public class Seat : MonoBehaviour
     /// Assigns the seat to the given person
     /// </summary>
     /// <param name="person">Person that is going to occupy the seat</param>
-    public void AssignSeat(GameObject person)
+    public void AssignSeat(Person person)
     {
         _person = person;
-        _animator = _person.GetComponent<Animator>();
         _occupied = true;
     }
 
@@ -34,12 +32,28 @@ public class Seat : MonoBehaviour
     /// </summary>
     public void FreeSeat()
     {       
-        ObjectPoolManager.Instance.ReturnToPool(_person);
+        if(_occupied)
+            ObjectPoolManager.Instance.ReturnToPool(_person);
     }
 
+    /// <summary>
+    /// Activates the person assigned
+    /// </summary>
     public void ActivatePerson()
     {
-        _person.SetActive(true);
-        _person.transform.position = transform.position + _offset;
+        if (_occupied)
+        {
+            _person.gameObject.SetActive(true);
+            _person.transform.position = transform.position + _offset;
+        }
+    }
+
+    /// <summary>
+    /// Gives the person assigned to the seat.
+    /// </summary>
+    /// <returns>The person assigned.</returns>
+    public Person GetPerson()
+    {
+        return _person;
     }
 }

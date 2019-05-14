@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ZXing;
 
@@ -40,7 +42,8 @@ public class QRCodeReader : MonoBehaviour
 				{
 					_cam = new WebCamTexture(devices[i].name);
 					_cam.Play();
-					_rawImage.texture = _cam;	
+					_rawImage.texture = _cam;
+					StartCoroutine(Loader());
 				}
 				else
 				{
@@ -50,6 +53,10 @@ public class QRCodeReader : MonoBehaviour
 		}
 	}
 
+	
+	/// <summary>
+	/// Capures the picture from the camera and analyzes it 
+	/// </summary>
 	public void CapturePicture()
 	{
 		Result result = _barcodeReader.Decode(_cam.GetPixels32(), _cam.width, _cam.height);
@@ -68,5 +75,22 @@ public class QRCodeReader : MonoBehaviour
 		{
 			ToastManager.Instance.ShowToast("No QR code found");
 		}
+	}
+
+	/// <summary>
+	/// Coroutine that starts loading the next Menu
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator Loader()
+	{
+		AsyncOperation async = SceneManager.LoadSceneAsync(1,  LoadSceneMode.Single);
+		async.allowSceneActivation = false;
+
+		while (async.progress < 0.9f || !FirebaseManager.Instance.RoomFound())
+		{
+			yield return null;
+		}
+		
+		async.allowSceneActivation = true;
 	}
 }

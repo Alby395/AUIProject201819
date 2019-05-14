@@ -74,7 +74,7 @@ public class BiosensorScreenController
             int height = (int) qrCodeImageView.getFitHeight();
 
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode("{\"Room\": \""+biosensor+"\", \"Type\": \"Empatica E4\"}", BarcodeFormat.QR_CODE, width, height);
+            BitMatrix bitMatrix = qrCodeWriter.encode("PcClientSender_EmpaticaE4_" + biosensor, BarcodeFormat.QR_CODE, width, height);
 
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             bufferedImage.createGraphics();

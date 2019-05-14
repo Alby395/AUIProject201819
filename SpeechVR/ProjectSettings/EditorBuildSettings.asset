@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/TheaterScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/QRCodeScene.unity
     guid: b1571caf24da00f4c80024d7ece81093
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 435dbaaef0aff4e4ba44400ba77e0996
+  - enabled: 1
+    path: Assets/Scenes/TheaterScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/TEST.unity
+    guid: 85dd3c26cf1f8234e9a57ef7408f890b
   m_configObjects: {}

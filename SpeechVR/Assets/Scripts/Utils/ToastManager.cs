@@ -21,6 +21,10 @@ public class ToastManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Show a toast message
+	/// </summary>
+	/// <param name="message">Message to show</param>
 	public void ShowToast(string message)
 	{
 		_currentActivity = _unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
@@ -37,7 +41,7 @@ public class ToastManager : MonoBehaviour
 		AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
 		AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", _message);
         
-		AndroidJavaObject toast = Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_LONG"));
+		AndroidJavaObject toast = Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_SHORT"));
 
 		toast.Call ("show");
 	}

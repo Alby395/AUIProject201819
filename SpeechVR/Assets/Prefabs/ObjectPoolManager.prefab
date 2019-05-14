@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1584352245993956}
-  m_IsPrefabAsset: 1
 --- !u!1 &1584352245993956
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4591712503116564}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4591712503116564
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584352245993956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.560759, y: -37.6, z: 44.1463}
@@ -42,25 +33,32 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114441142161079452
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584352245993956}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea03f213507cc684da427460778f7d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfPeople: 30
-  _indifferentFemalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
-  _indifferentMalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
-  _kindFemalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
-  _kindMalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
-  _seriousMalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
-  _seriousFemalePrefab: {fileID: 1962856005028368, guid: 51919f20d880b2b40b5fb24638b2cf93,
-    type: 2}
+  kindPrefabs:
+  - {fileID: 4639264250064706787, guid: f3650709d59904445be7367c35dcf68f, type: 3}
+  - {fileID: 5925040771837082123, guid: eca8b6149a819814e8b5fb15c0d769be, type: 3}
+  - {fileID: 7829622208519164630, guid: f63a88d7a9d5c614ca5f0f0daf1f81a2, type: 3}
+  - {fileID: 6860968104495547970, guid: 60817ba019ee58b448f6a718dc054540, type: 3}
+  - {fileID: 3932943512131042110, guid: d29538406b6f1ee478ea3163f6655e59, type: 3}
+  - {fileID: 1170079233190015484, guid: 924ef9bc2c4077647af343cdbf0912e0, type: 3}
+  - {fileID: 470954596988321431, guid: 5621cac9e99375a49b596ad604e083a0, type: 3}
+  - {fileID: 2348235058803186403, guid: 2cc9055f80307b84da05ba7691f0e39e, type: 3}
+  indifferentPrefabs:
+  - {fileID: 9097494607448892960, guid: ed1275112956ac5409889bb31324bd1f, type: 3}
+  - {fileID: 4860320299472203793, guid: 4505e610983148b44a4c34e4032235a8, type: 3}
+  - {fileID: 916424198761052679, guid: 2194b1f90a90bae40a772e7e40d07154, type: 3}
+  - {fileID: 4330903110066151463, guid: cde04429c29336a4584412b673d75114, type: 3}
+  seriousPrefabs:
+  - {fileID: 8617194501893335937, guid: 410db2ec85166cd489af51cc28ed6509, type: 3}
+  - {fileID: 7399188598793827057, guid: d1b4cb83c67a2684cbc1067877be910f, type: 3}
+  - {fileID: 7241443305042738645, guid: 4b384b4f186e9374b9f60531da805e94, type: 3}
+  - {fileID: 8964499937514529782, guid: 5e8557947093e1e47979c082a3a8df10, type: 3}

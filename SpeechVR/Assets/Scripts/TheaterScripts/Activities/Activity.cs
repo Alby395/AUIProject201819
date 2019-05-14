@@ -2,5 +2,7 @@ public interface Activity
 {
     void StartActivity();
     
-    void NextActivity();
+    Activity NextActivity();
+
+    void Activate(bool status);
 }

@@ -10,17 +10,6 @@ public class Row : MonoBehaviour
     
     private delegate void ChangeAmount();
 
-    public bool IsActive()
-    {
-        foreach (Seat seat in _seats)
-        {
-            if (seat.IsOccupied())
-                return true;
-        }
-
-        return false;
-    }
-
     /// <summary>
     /// Gives the number of seats in the row.
     /// </summary>
@@ -44,6 +33,10 @@ public class Row : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine that activates all the people in a row
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator ActivatePeople()
     {
         for (int i = 0; i < _seats.Count; i++)
@@ -53,7 +46,12 @@ public class Row : MonoBehaviour
         }
     }
     
-    public IEnumerator AssignAll(List<GameObject> people)
+    /// <summary>
+    /// Coroutine that assign people to the seats
+    /// </summary>
+    /// <param name="people"></param>
+    /// <returns></returns>
+    public IEnumerator AssignAll(List<Person> people)
     {
         for (_index = 0; _index < _seats.Count; _index++)
         {
@@ -63,7 +61,12 @@ public class Row : MonoBehaviour
         }
     }
 
-    public IEnumerator AssignRandom(List<GameObject> people)
+    /// <summary>
+    /// Coroutine that assign the seats randomly
+    /// </summary>
+    /// <param name="people">Number of people to assign</param>
+    /// <returns></returns>
+    public IEnumerator AssignRandom(List<Person> people)
     {
         int peopleCount = people.Count;
         
@@ -76,17 +79,17 @@ public class Row : MonoBehaviour
         if (Random.value < 0.5f)
         {
             firstSeat = 0;
-            lastSeat = _seats.Count - 1;
+            lastSeat = seatsCount - 1;
             op = Increment;
         }
         else
         {
-            firstSeat = _seats.Count - 1;
+            firstSeat = seatsCount - 1;
             lastSeat = 0;
             op = Decrement;
         }
         
-        foreach (GameObject person in people)
+        foreach (Person person in people)
         {
             bool assigned = false;
             _index = firstSeat;
@@ -112,13 +115,17 @@ public class Row : MonoBehaviour
             peopleCount--;
             seatsCount--;
             
-            Debug.Log("Assigned seat: " + _index);
             _seats[_index].AssignSeat(person);
 
             yield return null;
         }
     }
 
+    public Person GetPerson(int index)
+    {
+        return _seats[index].GetPerson();
+    }
+    
     /// <summary>
     /// Increments the index by 1.
     /// </summary>

@@ -25,6 +25,9 @@ public class CameraRayCaster : MonoBehaviour
 		EyeRaycast();
 	}
 
+	/// <summary>
+	/// Sends a raycast and check whether the object hit is interactable
+	/// </summary>
 	private void EyeRaycast()
 	{
 		
